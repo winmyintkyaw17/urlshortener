@@ -1,0 +1,37 @@
+{% extends "layout/base.html" %}
+{% block title %}Url List{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <h3 class="fs-2 fw-bold mt-5 mb-5">Url List</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Hash Url</th>
+                    <th>Actual Url</th>
+                    <th>Created date</th>
+                    <th colspan="3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in urls %}
+                    <tr>
+                        <td>{{ url.hash_url}}</td>
+                        <td>{{ url.actual_url}}</td>
+                        <td>{{ url.created_at}}</td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-warning ">Redirect</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'sg_url' url.id %}" class="btn btn-sm btn-success ">Update</a>
+                        </td>
+                        <td>
+                            <a href="" class="btn btn-sm btn-danger ">Delete</a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
