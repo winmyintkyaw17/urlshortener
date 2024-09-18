@@ -6,6 +6,10 @@ from .models import Url
 from hashlib import md5
 from django.contrib import messages
 # Create your views here.
+def url_short(request, hash_code):
+    url = get_object_or_404(Url, hash_code=hash_code)
+    return redirect(url.actual_url)
+
 def url_list(request):
     urls = Url.objects.all()
     print(urls)
@@ -15,7 +19,10 @@ def url_list(request):
 def delete_url(request, id):
     if request.method == "POST":
         url = get_object_or_404(Url, pk=id)
-        return HttpResponse("delete")
+        url.delete()
+        messages.success(request,"You just deleted successfully!")
+        return redirect("url_list")
+    
 def update_url(request, id):
     url = get_object_or_404(Url, pk=id)
     if request.method == "POST":
@@ -42,12 +49,13 @@ def update_url(request, id):
         hash_url = "http://" +host + "/"+ hash_code
 
         #update data
+        url.hash_code = hash_code
         url.hash_url= hash_url
         url.actual_url= req_url
         url.save()
         messages.success(request, "Hey you just updated successfully")
 
-        return redirect("sg_url", id= url.id)
+        return redirect("update_url", id= url.id)
     return render(request, "sg_url.html", {
         "url": url
     })
@@ -75,7 +83,7 @@ def index(request):
         host = request.get_host()
         #build hash url
         hash_url = "http://" +host + "/"+ hash_code
-        create_url = Url(hash_url = hash_url, actual_url = url)
+        create_url = Url(hash_code=hash_code,hash_url = hash_url, actual_url = url)
         create_url.save()
         messages.success(request,"Hey You just inserted successfully")
         return redirect("home")

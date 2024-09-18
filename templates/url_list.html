@@ -6,6 +6,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>Hash Code</th>
                     <th>Hash Url</th>
                     <th>Actual Url</th>
                     <th>Created date</th>
@@ -15,11 +16,12 @@
             <tbody>
                 {% for url in urls %}
                     <tr>
+                        <td>{{ url.hash_code}}</td>
                         <td>{{ url.hash_url}}</td>
                         <td>{{ url.actual_url}}</td>
                         <td>{{ url.created_at}}</td>
                         <td>
-                            <a href="" class="btn btn-sm btn-warning ">Redirect</a>
+                            <a href="{% url 'url_short' url.hash_code %}" target="_blank" class="btn btn-sm btn-warning ">Redirect</a>
                         </td>
                         <td>
                             <a href="{% url 'update_url' url.id %}" class="btn btn-sm btn-success ">Update</a>
