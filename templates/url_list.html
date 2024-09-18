@@ -22,10 +22,13 @@
                             <a href="" class="btn btn-sm btn-warning ">Redirect</a>
                         </td>
                         <td>
-                            <a href="{% url 'sg_url' url.id %}" class="btn btn-sm btn-success ">Update</a>
+                            <a href="{% url 'update_url' url.id %}" class="btn btn-sm btn-success ">Update</a>
                         </td>
                         <td>
-                            <a href="" class="btn btn-sm btn-danger ">Delete</a>
+                            <a href="#" class="btn btn-sm btn-danger " onclick="deleteUrl(this)">Delete</a>
+                            <form action="{% url 'delete_url' url.id %}" method="post">
+                                {% csrf_token %}
+                            </form>
                         </td>
 
                     </tr>
@@ -34,4 +37,16 @@
             </tbody>
         </table>
     </div>
+{% endblock %}
+{% block script%}
+    <script>
+        function deleteUrl(e){
+            const con =confirm("Are you sure u want to delete?")
+
+            if(con){
+                const form = e.nextElementSibling;
+                form.submit();
+            }
+        }
+    </script>
 {% endblock %}
